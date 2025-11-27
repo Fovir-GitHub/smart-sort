@@ -6,18 +6,24 @@ This repository stores source code of smart sort.
 
 **Mandatory**:
 
-| Tool           | Version  |
-| -------------- | -------- |
-| `CMake`        | `4.1.2`  |
-| `GNU Make`     | `4.4.1`  |
-| `Google Test`  | `1.17.0` |
-| `clang-format` | `21.1.2` |
-| `clang-tidy`   | `21.1.2` |
-| `g++`          | `14.3.0` |
-| `git`          | `2.51.2` |
-| `pre-commit`   | `4.3.0`  |
+| Tool                                                  | Version  |
+| ----------------------------------------------------- | -------- |
+| [`CMake`](https://cmake.org/)                         | `4.1.2`  |
+| [`GNU Make`](https://www.gnu.org/software/make/)      | `4.4.1`  |
+| [`Google Test`](https://github.com/google/googletest) | `1.17.0` |
+| [`clang-format`](https://llvm.org/builds/)            | `21.1.2` |
+| [`clang-tidy`](https://llvm.org/builds/)              | `21.1.2` |
+| [`g++`](https://gcc.gnu.org/)                         | `14.3.0` |
+| [`git`](https://git-scm.com/)                         | `2.51.2` |
+| [`pre-commit`](https://pre-commit.com/)               | `4.3.0`  |
 
 _Optional_ but **recommend**:
 
-- `just`: Providing a handy way to save and run project-specific commands.
-- `gdb` or `cgdb`: Debugger.
+- [`just`](https://just.systems/): Providing a handy way to save and run project-specific commands.
+- [`gdb`](https://sourceware.org/gdb/) or [`cgdb`](https://cgdb.github.io/): Debugger.
+
+## Development
+
+Install all required tools above.
+
+Then follow the [CONTRIBUTING.md](https://github.com/Fovir-GitHub/smart-sort?tab=contributing-ov-file).
