@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -isystem/nix/store/cvjp8w08rnzbpwkgn8nlwg8mbwap9izl-libcxx-21.1.2-dev/include/c++/v1
+    - -std=c++20
