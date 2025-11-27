@@ -13,26 +13,27 @@
     clangdConfig = pkgs.writeText ".clangd" ''
       CompileFlags:
         Add:
-          - -isystem${pkgs.libcxx.dev}/include/c++/v1
+          - -isystem${pkgs.glibc.dev}/include
+          - -isystem${pkgs.gtest.dev}/include
           - -std=c++20
     '';
   in {
     devShells.${system}.default = pkgs.mkShell {
       # Add packages here.
       buildInputs = with pkgs; [
-        bear
         cgdb
         clang-tools
         cmake
+        gcc
         gdb
         gnumake
-        libcxx
+        gtest
       ];
 
       # Shell hooks.
       shellHook = ''
         echo "Entering the development environment!"
-        cp ${clangdConfig} .clangd
+        ln -sf ${clangdConfig} .clangd
       '';
     };
   };
