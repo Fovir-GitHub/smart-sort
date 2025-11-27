@@ -14,7 +14,6 @@
       CompileFlags:
         Add:
           - -isystem${pkgs.glibc.dev}/include
-          - -isystem${pkgs.gtest.dev}/include
           - -std=c++20
     '';
   in {
@@ -27,7 +26,6 @@
         gcc
         gdb
         gnumake
-        gtest
         just
         pre-commit
       ];
