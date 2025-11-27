@@ -1,0 +1,8 @@
+repos:
+  - repo: local
+    hooks:
+      - id: clang-tidy
+        name: clang-tidy
+        entry: ./scripts/run-tidy.sh
+        language: script
+        pass_filenames: false

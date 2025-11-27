@@ -29,6 +29,7 @@
         gnumake
         gtest
         just
+        pre-commit
       ];
 
       # Shell hooks.
