@@ -28,6 +28,7 @@
         gdb
         gnumake
         gtest
+        just
       ];
 
       # Shell hooks.
