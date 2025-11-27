@@ -1,28 +1,25 @@
 Checks:
   - "*"
-  - -llvm*
   - -altera*
-  - -google*
-  - -fuchsia*
   - -boost*
+  - -bugprone-easily-swappable-parameters
   - -cppcoreguidelines*
-
-  - -modernize-use-trailing-return-type
-  - -modernize-use-nodiscard
-
-  - -hicpp-special-member-functions
+  - -fuchsia*
+  - -google*
   - -hicpp-explicit-conversions
-
+  - -hicpp-special-member-functions
+  - -llvm*
+  - -misc-no-recursion
+  - -misc-non-private-member-variables-in-classes
+  - -misc-use-anonymous-namespace
+  - -misc-use-internal-linkage
+  - -modernize-use-nodiscard
+  - -modernize-use-trailing-return-type
+  - -portability-avoid-pragma-once
+  - -readability-convert-member-functions-to-static
   - -readability-identifier-length
+  - -readability-implicit-bool-conversion
   - -readability-isolate-declaration
   - -readability-static-definition-in-anonymous-namespace
 
-  - -misc-non-private-member-variables-in-classes
-  - -misc-no-recursion
-  - -misc-use-anonymous-namespace
-  - -misc-use-internal-linkage
-
-  - -readability-implicit-bool-conversion
-  - -readability-convert-member-functions-to-static
-
-  - -bugprone-easily-swappable-parameters
+WarningsAsErrors: "*"
