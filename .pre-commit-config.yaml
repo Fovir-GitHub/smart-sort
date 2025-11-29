@@ -6,3 +6,6 @@ repos:
         entry: ./scripts/run-tidy.sh
         language: script
         pass_filenames: false
+        types_or:
+          - c
+          - c++
