@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y g++ make cmake just
+
       - name: Install dependencies on Windows
         if: matrix.os == 'windows-latest'
         run: |
@@ -26,6 +27,7 @@ jobs:
           git clone https://github.com/microsoft/vcpkg.git C:/vcpkg
           C:/vcpkg/bootstrap-vcpkg.bat
           C:/vcpkg/vcpkg install gtest:x64-windows
+
       - name: Build on Linux
         if: matrix.os == 'ubuntu-latest'
         run: just build
@@ -38,6 +40,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake `
           -DVCPKG_TARGET_TRIPLET=x64-windows
           cmake --build build --config Release
+          
       - name: Run tests
         run: |
           cd build
