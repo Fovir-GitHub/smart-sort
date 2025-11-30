@@ -9,3 +9,11 @@ repos:
         types_or:
           - c
           - c++
+      - id: clang-format
+        name: Check Code Format
+        entry: ./scripts/check-format.sh
+        language: script
+        pass_filenames: false
+        types_or:
+          - c
+          - c++
