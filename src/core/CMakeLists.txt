@@ -3,8 +3,7 @@
 add_library(
   core
 
-# Source Code Here (Only *.cpp)
-  add.cpp
+# Source Code Here (Only *.cpp and *.hpp)
   sort_algorithm.hpp
 )
 
