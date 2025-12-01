@@ -5,6 +5,7 @@ add_library(
 
 # Source Code Here (Only *.cpp)
   add.cpp
+  sort_algorithm.hpp
 )
 
 target_include_directories(
