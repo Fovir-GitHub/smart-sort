@@ -1,10 +1,9 @@
 #pragma once
 
-#include "utils.h"
 #include <functional>
 #include <utility>
 
-SMART_SORT_NAMESPACE_BEGIN
+namespace smart_sort {
 
 template <typename Iter, typename Compare = std::less<>>
 void bubbleSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
@@ -24,4 +23,4 @@ void bubbleSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
     }
 }
 
-SMART_SORT_NAMESPACE_END
+} // namespace smart_sort
