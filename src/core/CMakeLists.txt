@@ -4,8 +4,8 @@ add_library(
   core
 
 # Source Code Here (Only *.cpp and *.hpp)
+  dummy.cpp
   sort_algorithm.hpp
-  utils.cpp
 )
 
 target_include_directories(
