@@ -3,7 +3,9 @@
 #include <cmath>
 #include <cstddef>
 #include <fstream>
+#include <iomanip>
 #include <iostream>
+#include <limits>
 #include <sstream>
 #include <string>
 #include <unordered_map>
@@ -46,7 +48,8 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
     const size_t sorted_suffix_length =
         getSortedSuffixLength(target, direction);
 
-    fout << size << " " << order_ratio << " " << effective_order << " "
+    fout << std::setprecision(std::numeric_limits<double>::max_digits10) << size
+         << " " << order_ratio << " " << effective_order << " "
          << duplicated_rank << " " << unique_ratio << " " << entropy << " "
          << value_range << " " << sorted_prefix_length << " "
          << sorted_suffix_length << " " << direction << " ";
