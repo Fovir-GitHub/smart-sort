@@ -20,8 +20,8 @@ double getEntroy(const Array & source);
 
 double getOrderRatio(const Array & source);
 
-size_t getSortedPrefixLength(const Array & source, int direction);
+double getSortedPrefixLength(const Array & source, int direction);
 
-size_t getSortedSuffixLength(const Array & source, int direction);
+double getSortedSuffixLength(const Array & source, int direction);
 
 } // namespace smart_sort

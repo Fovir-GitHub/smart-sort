@@ -43,9 +43,9 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
     const int value_range =
         static_cast<int>(*std::max_element(target.begin(), target.end()) -
                          *std::min_element(target.begin(), target.end()));
-    const size_t sorted_prefix_length =
+    const double sorted_prefix_length =
         getSortedPrefixLength(target, direction);
-    const size_t sorted_suffix_length =
+    const double sorted_suffix_length =
         getSortedSuffixLength(target, direction);
 
     fout << std::setprecision(std::numeric_limits<double>::max_digits10) << size
@@ -119,8 +119,8 @@ double getOrderRatio(const Array & source) {
            (static_cast<double>(decrease) / size);
 }
 
-size_t getSortedPrefixLength(const Array & source, int direction) {
-    const size_t n = source.size();
+double getSortedPrefixLength(const Array & source, int direction) {
+    const int n = (int)source.size();
     if (n < 1) {
         return 0;
     }
@@ -129,10 +129,10 @@ size_t getSortedPrefixLength(const Array & source, int direction) {
     for (int i = 1; i < n && (source[i] - source[i - 1]) * direction > 0; i++) {
         counter++;
     }
-    return counter;
+    return static_cast<double>(counter) / n;
 }
 
-size_t getSortedSuffixLength(const Array & source, int direction) {
+double getSortedSuffixLength(const Array & source, int direction) {
     const int n = (int)source.size();
     if (n < 1) {
         return 0;
@@ -143,7 +143,7 @@ size_t getSortedSuffixLength(const Array & source, int direction) {
          i--) {
         counter++;
     }
-    return counter;
+    return static_cast<double>(counter) / n;
 }
 
 } // namespace smart_sort
