@@ -12,7 +12,7 @@ void getRawData(Array & result, std::ifstream & fin);
 
 void labelData(const Array & target, std::ofstream & fout, int direction = 1);
 
-size_t getDuplicatedRank(const Array & source);
+double getDuplicatedRank(const Array & source);
 
 size_t getUniqueRatio(const Array & source);
 

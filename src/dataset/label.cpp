@@ -37,7 +37,7 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
     const size_t size = target.size();
     const double order_ratio = getOrderRatio(target);
     const double effective_order = order_ratio * direction;
-    const size_t duplicated_rank = getDuplicatedRank(target);
+    const double duplicated_rank = getDuplicatedRank(target);
     const size_t unique_ratio = getUniqueRatio(target);
     const double entropy = getEntroy(target);
     const int value_range =
@@ -59,12 +59,15 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
     fout << "\n";
 }
 
-size_t getDuplicatedRank(const Array & source) {
+double getDuplicatedRank(const Array & source) {
+    if (source.empty()) {
+        return 0;
+    }
     size_t result = 0;
     for (const auto & [_, v] : getFrequency(source)) {
-        result += static_cast<int>(v > 1);
+        result += v > 1 ? v - 1 : 0;
     }
-    return result;
+    return static_cast<double>(result) / static_cast<double>(source.size());
 }
 
 size_t getUniqueRatio(const Array & source) {
@@ -101,15 +104,15 @@ double getOrderRatio(const Array & source) {
 
     int increase = 0;
     int decrease = 0;
-    for (int i = 1; i < n; i++) {
-        if (source[i] > source[i - 1]) {
+    for (int i = 0; i < n - 1; i++) {
+        if (source[i] < source[i + 1]) {
             increase++;
-        } else if (source[i] < source[i - 1]) {
+        } else if (source[i] > source[i + 1]) {
             decrease++;
         }
     }
 
-    auto size = static_cast<double>(n);
+    auto size = static_cast<int>(n);
     return (static_cast<double>(increase) / size) -
            (static_cast<double>(decrease) / size);
 }
