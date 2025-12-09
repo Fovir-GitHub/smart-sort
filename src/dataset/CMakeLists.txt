@@ -5,6 +5,7 @@ add_library(
 
 # Source Code Here (Only *.cpp and *.hpp)
   generate.cpp
+  label.cpp
 )
 
 target_include_directories(
