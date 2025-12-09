@@ -97,14 +97,14 @@ double getEntroy(const Array & source) {
 }
 
 double getOrderRatio(const Array & source) {
-    const size_t n = source.size();
-    if (n <= 1) {
+    const size_t n = source.size() - 1;
+    if (n <= 0) {
         return 1;
     }
 
     int increase = 0;
     int decrease = 0;
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = 0; i < n; i++) {
         if (source[i] < source[i + 1]) {
             increase++;
         } else if (source[i] > source[i + 1]) {
