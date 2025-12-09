@@ -13,3 +13,7 @@ target_include_directories(
   PUBLIC
   ${CMAKE_CURRENT_SOURCE_DIR}
 )
+
+add_executable(feature_extractor feature_extractor.cpp)
+
+target_link_libraries(feature_extractor PRIVATE dataset)
