@@ -53,9 +53,8 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
          << duplicated_rank << " " << unique_ratio << " " << entropy << " "
          << value_range << " " << sorted_prefix_length << " "
          << sorted_suffix_length << " " << direction << " ";
-    for (const auto & num : target) {
-        fout << num << " ";
-    }
+    std::for_each(target.begin(), target.end(),
+                  [&fout](auto & n) { fout << n << " "; });
     fout << "\n";
 }
 
