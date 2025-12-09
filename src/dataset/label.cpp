@@ -38,7 +38,7 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
     const double order_ratio = getOrderRatio(target);
     const double effective_order = order_ratio * direction;
     const double duplicated_rank = getDuplicatedRank(target);
-    const size_t unique_ratio = getUniqueRatio(target);
+    const double unique_ratio = getUniqueRatio(target);
     const double entropy = getEntroy(target);
     const int value_range =
         static_cast<int>(*std::max_element(target.begin(), target.end()) -
@@ -70,9 +70,11 @@ double getDuplicatedRank(const Array & source) {
     return static_cast<double>(result) / static_cast<double>(source.size());
 }
 
-size_t getUniqueRatio(const Array & source) {
+double getUniqueRatio(const Array & source) {
     const std::unordered_set<int> set(source.begin(), source.end());
-    return !source.empty() ? set.size() / source.size() : 0;
+    return !source.empty() ? static_cast<double>(set.size()) /
+                                 static_cast<double>(source.size())
+                           : 0;
 }
 
 double getEntroy(const Array & source) {

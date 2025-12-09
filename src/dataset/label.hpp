@@ -14,7 +14,7 @@ void labelData(const Array & target, std::ofstream & fout, int direction = 1);
 
 double getDuplicatedRank(const Array & source);
 
-size_t getUniqueRatio(const Array & source);
+double getUniqueRatio(const Array & source);
 
 double getEntroy(const Array & source);
 
