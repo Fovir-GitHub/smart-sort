@@ -28,5 +28,9 @@ format:
   find src tests -type f \( -name "*.cpp" -o -name "*.h" \) -print0 | xargs -0 clang-format -i
 
 tidy:
-  # Run clang-tidy
+  # Run clang-tidy.
   ./scripts/run-tidy.sh
+
+check-format:
+  # Check format.
+  ./scripts/check-format.sh
