@@ -5,6 +5,7 @@ add_library(
 
 # Source Code Here (Only *.cpp and *.hpp)
   dummy.cpp
+  utils.hpp
   sort_algorithm.hpp
 )
 
