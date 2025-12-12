@@ -2,6 +2,8 @@
 
 #include <functional>
 #include <utility>
+#include <iterator>
+#include <algorithm>
 
 namespace smart_sort {
 
@@ -88,8 +90,57 @@ void mergeSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
     merge(start, mid, end, cmp);
 }
 
+template <typename Iter, typename Compare = std::less<>>
+Iter partition(Iter start, Iter end, Compare cmp = std::less<>{}) {
+
+    if (start >= end) {
+        return start; 
+    }
+
+    using ValueType = typename std::iterator_traits<Iter>::value_type;
+    ValueType pivot_value = *start; 
+
+    Iter i = start;
+    Iter j = end;
+
+    while (i != j) {
+
+        while (i != j && !cmp(*j, pivot_value)) { 
+            j--;
+        }
+
+        while (i != j && !cmp(pivot_value, *i)) {
+            i++;
+        }
+        
+        if (i != j) {
+            std::iter_swap(i, j); 
+        }
+    }
+
+    std::iter_swap(start, i);
+    
+    return i; 
+}
 
 template <typename Iter, typename Compare = std::less<>>
-void quickSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
+void quickSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
+    if (std::distance(start, end) <= 1) { 
+        return;
+    }
+    
+    Iter last_element = std::prev(end);
 
-} // namespace smart_sort
+
+    Iter pivot_final_pos = smart_sort::partition(start, last_element, cmp);
+    
+
+    quickSort(start, pivot_final_pos, cmp);
+
+    Iter next_to_pivot = std::next(pivot_final_pos);
+    quickSort(next_to_pivot, end, cmp);
+    
+}
+}
+
+ // namepace smart_sort
