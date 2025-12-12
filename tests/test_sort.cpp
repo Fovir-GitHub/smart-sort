@@ -54,6 +54,18 @@ AlgorithmMap<TYPE> getAlgorithmMapByType(COMPARE cmp = std::less<>{}) {
              [cmp](std::vector<TYPE> & v) {
                  smart_sort::bubbleSort(v.begin(), v.end(), cmp);
              }},
+            {"Selection Sort",
+             [cmp](std::vector<TYPE> & v) {
+                 smart_sort::selectionSort(v.begin(), v.end(), cmp);
+             }},
+            {"Merge Sort",
+             [cmp](std::vector<TYPE> & v) {
+                 smart_sort::mergeSort(v.begin(), v.end(), cmp);
+             }},
+            {"Quick Sort",
+             [cmp](std::vector<TYPE> & v) {
+                 smart_sort::quickSort(v.begin(), v.end(), cmp);
+             }},
         };
     return result;
 }

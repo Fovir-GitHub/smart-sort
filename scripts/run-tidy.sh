@@ -8,7 +8,7 @@ INCLUDES=$(echo | $GCC_BIN -E -x c++ - -v 2>&1 | \
            grep -v '#' | grep -v "End of search" | sed 's|^| -I|')
 
 BUILD_DIR=build
-FILES=$(find src -name "*.cpp" -o -name "*.h")
+FILES=$(find src -name "*.cpp" -o -name "*.h" -o -name "*.hpp")
 
 FAILED=0
 
