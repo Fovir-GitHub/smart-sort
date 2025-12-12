@@ -24,12 +24,25 @@ void bubbleSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
 }
 
 template <typename Iter, typename Compare = std::less<>>
-void selectionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
+void selectionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
+    if(start == end){
+        return;
+    }
+    for (Iter i = start; i != end; i++) {
+        Iter k = i;
+        for (Iter j = std::next(i); j != end; j++) {
+            if (cmp(*j, *k))
+                k = j; 
+        }
+        std::swap(*i, *k);
+    }
+}
+
 
 template <typename Iter, typename Compare = std::less<>>
 void mergeSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
 
+
 template <typename Iter, typename Compare = std::less<>>
 void quickSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
-
 } // namespace smart_sort
