@@ -23,4 +23,13 @@ void bubbleSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
     }
 }
 
+template <typename Iter, typename Compare = std::less<>>
+void selectionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
+
+template <typename Iter, typename Compare = std::less<>>
+void mergeSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
+
+template <typename Iter, typename Compare = std::less<>>
+void quickSort(Iter start, Iter end, Compare cmp = std::less<>{}) {}
+
 } // namespace smart_sort
