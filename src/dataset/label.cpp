@@ -49,12 +49,12 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
         getSortedSuffixLength(target, direction);
 
     fout << std::setprecision(std::numeric_limits<double>::max_digits10) << size
-         << " " << order_ratio << " " << effective_order << " "
-         << duplicated_rank << " " << unique_ratio << " " << entropy << " "
-         << value_range << " " << sorted_prefix_length << " "
-         << sorted_suffix_length << " " << direction << " ";
+         << "," << order_ratio << "," << effective_order << ","
+         << duplicated_rank << "," << unique_ratio << "," << entropy << ","
+         << value_range << "," << sorted_prefix_length << ","
+         << sorted_suffix_length << "," << direction << ",";
     std::for_each(target.begin(), target.end(),
-                  [&fout](auto & n) { fout << n << " "; });
+                  [&fout](auto & n) { fout << n << ","; });
     fout << "\n";
 }
 

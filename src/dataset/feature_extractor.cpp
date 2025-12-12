@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <vector>
 
 int main(int argc, char ** argv) {
     if (argc != 3) {
@@ -17,6 +18,19 @@ int main(int argc, char ** argv) {
         return -1;
     }
 
+    const std::vector<std::string> csvHeader = {
+        "size",
+        "order_ratio",
+        "effective_order",
+        "duplicated_rank",
+        "unique_ratio",
+        "entropy",
+        "value_range",
+        "sorted_prefix_length",
+        "sorted_suffix_length",
+        "sort_direction",
+        "best_algorithm",
+    };
     int line = 1;
     int total_lines = 0;
     std::string temp;
@@ -25,6 +39,11 @@ int main(int argc, char ** argv) {
     }
     fin.clear();
     fin.seekg(0);
+
+    for (const auto & header : csvHeader) {
+        fout << header << ",";
+    }
+    fout << "\n";
 
     smart_sort::Array source;
     while (fin) {
