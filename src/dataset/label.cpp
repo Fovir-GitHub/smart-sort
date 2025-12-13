@@ -1,8 +1,10 @@
 #include "label.hpp"
+#include "core/utils.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
 #include <fstream>
+#include <functional>
 #include <iomanip>
 #include <iostream>
 #include <limits>
@@ -33,7 +35,7 @@ void getRawData(Array & result, std::ifstream & fin) {
     }
 }
 
-void labelData(const Array & target, std::ofstream & fout, int direction) {
+void labelData(Array & target, std::ofstream & fout, int direction) {
     const size_t size = target.size();
     const double order_ratio = getOrderRatio(target);
     const double effective_order = order_ratio * direction;
@@ -47,12 +49,14 @@ void labelData(const Array & target, std::ofstream & fout, int direction) {
         getSortedPrefixLength(target, direction);
     const double sorted_suffix_length =
         getSortedSuffixLength(target, direction);
+    const std::string best_algorithm = getBestAlgorithm(target, direction);
 
     fout << std::setprecision(std::numeric_limits<double>::max_digits10) << size
          << "," << order_ratio << "," << effective_order << ","
          << duplicated_rank << "," << unique_ratio << "," << entropy << ","
          << value_range << "," << sorted_prefix_length << ","
-         << sorted_suffix_length << "," << direction << ",";
+         << sorted_suffix_length << "," << direction << "," << best_algorithm
+         << "\n";
     std::for_each(target.begin(), target.end(),
                   [&fout](auto & n) { fout << n << ","; });
     fout << "\n";
@@ -105,7 +109,7 @@ double getOrderRatio(const Array & source) {
 
     int increase = 0;
     int decrease = 0;
-    for (int i = 0; i < n; i++) {
+    for (size_t i = 0; i < n; i++) {
         if (source[i] < source[i + 1]) {
             increase++;
         } else if (source[i] > source[i + 1]) {
@@ -143,6 +147,24 @@ double getSortedSuffixLength(const Array & source, int direction) {
         counter++;
     }
     return static_cast<double>(counter) / n;
+}
+
+std::string getBestAlgorithm(Array & source, int direction) {
+    auto cmp = direction > 0 ? std::function<bool(int, int)>(std::less<>{})
+                             : std::function<bool(int, int)>(std::greater<>{});
+    auto algorithm_map = smart_sort::getAlgorithmMapByType<int>(cmp);
+    std::string result;
+    long double faster = std::numeric_limits<long double>::max();
+    for (const auto & [name, func] : algorithm_map) {
+        const long double current = smart_sort::measureAverageTime(
+            [source, func]() mutable { func(source); });
+        if (current < faster) {
+            faster = current;
+            result = name;
+        }
+    }
+
+    return result;
 }
 
 } // namespace smart_sort
