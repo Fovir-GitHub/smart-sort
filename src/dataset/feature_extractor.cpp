@@ -48,7 +48,9 @@ int main(int argc, char ** argv) {
     while (fin) {
         smart_sort::getRawData(source, fin);
         if (fin) {
-            smart_sort::labelData(source, fout);
+            smart_sort::labelData(source, fout, 1);
+            smart_sort::labelData(source, fout, -1);
+            fout.flush();
             std::cout << "Current Line: " << line++ << " / " << total_lines
                       << "\n";
         }
