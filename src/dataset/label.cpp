@@ -153,6 +153,12 @@ int getBestAlgorithm(Array & source, int direction) {
     std::string result;
     long double faster = std::numeric_limits<long double>::max();
     for (const auto & [name, func] : algorithm_map) {
+        // NOLINTNEXTLINE
+        if (source.size() > 1000 &&
+            (name == "Bubble Sort" || name == "Selection Sort")) {
+            continue;
+        }
+
         const long double current = smart_sort::measureAverageTime(
             [source, func]() mutable { func(source); });
         if (current < faster) {
