@@ -14,7 +14,7 @@
       CompileFlags:
         Add:
           - -isystem${pkgs.glibc.dev}/include
-          - -std=c++17
+          - -std=c++20
     '';
   in {
     devShells.${system}.default = pkgs.mkShell {
