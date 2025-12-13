@@ -40,10 +40,9 @@ int main(int argc, char ** argv) {
     fin.clear();
     fin.seekg(0);
 
-    for (const auto & header : csvHeader) {
-        fout << header << ",";
+    for (int i = 0; i < csvHeader.size(); i++) {
+        fout << csvHeader[i] << (i == csvHeader.size() - 1 ? "\n" : ",");
     }
-    fout << "\n";
 
     smart_sort::Array source;
     while (fin) {

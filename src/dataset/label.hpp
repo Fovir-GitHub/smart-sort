@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fstream>
-#include <string>
 #include <vector>
 
 namespace smart_sort {
@@ -24,6 +23,6 @@ double getSortedPrefixLength(const Array & source, int direction);
 
 double getSortedSuffixLength(const Array & source, int direction);
 
-std::string getBestAlgorithm(Array & source, int direction);
+int getBestAlgorithm(Array & source, int direction);
 
 } // namespace smart_sort

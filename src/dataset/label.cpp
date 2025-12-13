@@ -49,7 +49,7 @@ void labelData(Array & target, std::ofstream & fout, int direction) {
         getSortedPrefixLength(target, direction);
     const double sorted_suffix_length =
         getSortedSuffixLength(target, direction);
-    const std::string best_algorithm = getBestAlgorithm(target, direction);
+    const int best_algorithm = getBestAlgorithm(target, direction);
 
     fout << std::setprecision(std::numeric_limits<double>::max_digits10) << size
          << "," << order_ratio << "," << effective_order << ","
@@ -57,9 +57,6 @@ void labelData(Array & target, std::ofstream & fout, int direction) {
          << value_range << "," << sorted_prefix_length << ","
          << sorted_suffix_length << "," << direction << "," << best_algorithm
          << "\n";
-    std::for_each(target.begin(), target.end(),
-                  [&fout](auto & n) { fout << n << ","; });
-    fout << "\n";
 }
 
 double getDuplicatedRank(const Array & source) {
@@ -149,7 +146,7 @@ double getSortedSuffixLength(const Array & source, int direction) {
     return static_cast<double>(counter) / n;
 }
 
-std::string getBestAlgorithm(Array & source, int direction) {
+int getBestAlgorithm(Array & source, int direction) {
     auto cmp = direction > 0 ? std::function<bool(int, int)>(std::less<>{})
                              : std::function<bool(int, int)>(std::greater<>{});
     auto algorithm_map = smart_sort::getAlgorithmMapByType<int>(cmp);
@@ -164,7 +161,17 @@ std::string getBestAlgorithm(Array & source, int direction) {
         }
     }
 
-    return result;
+    if (result == "Bubble Sort") {
+        return 1;
+    }
+    if (result == "Selection Sort") {
+        return 2;
+    }
+    if (result == "Merge Sort") {
+        return 3;
+    }
+
+    return 4;
 }
 
 } // namespace smart_sort
