@@ -28,19 +28,19 @@ void bubbleSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
 }
 
 template <typename Iter, typename Compare = std::less<>>
-void selectionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
+void insertionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
     if (start >= end) {
         return;
     }
 
-    for (Iter i = start; i != end; i++) {
-        Iter k = i;
-        for (Iter j = std::next(i); j != end; j++) {
-            if (cmp(*j, *k)) {
-                k = j;
-            }
+    for (Iter i = start + 1; i != end; i++) {
+        auto base = *i;
+        Iter j = i - 1;
+        while (j >= start && cmp(base, *j)) {
+            *(j + 1) = *j;
+            j--;
         }
-        std::swap(*i, *k);
+        *(j + 1) = base;
     }
 }
 
