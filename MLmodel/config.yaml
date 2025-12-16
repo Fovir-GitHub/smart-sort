@@ -1,0 +1,36 @@
+data:
+  train_path: "dataset/train.csv"
+  test_path: "dataset/test.csv"
+  test_answer_ascending_path: "dataset/test_answer_ascending.csv"
+  test_answer_descending_path: "dataset/test_answer_descending.csv"
+
+features:
+  - size
+  - order_ratio
+  - effective_order
+  - duplicated_rank
+  - unique_ratio
+  - entropy
+  - value_range
+  - sorted_prefix_length
+  - sorted_suffix_length
+  - sort_direction
+
+label: best_algorithm
+
+model:
+  type: xgboost
+  params:
+    objective: "multi:softprob"
+    num_class: 4 
+    max_depth: 6
+    eta: 0.1
+    n_estimators: 200
+    subsample: 0.9
+    colsample_bytree: 0.8
+
+save_path: "model/best_model.json"
+
+split:
+  test_size: 0.2
+  random_state: 42
