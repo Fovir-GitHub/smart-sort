@@ -44,8 +44,11 @@ void testAlgorithm(std::mt19937 & gen, DIST & dist,
                    const int array_max_size = ARRAY_MAX_SIZE) {
     std::vector<TYPE> expected;
     for (const auto & [name, func] : algorithm_map) {
-        for (int i = 0; i < TEST_GROUPS; i++) {
+        for (int i = 0; i < TEST_GROUPS + 3; i++) {
             int size = static_cast<int>(dist(gen)) % array_max_size;
+            if (i >= TEST_GROUPS) {
+                size = i - TEST_GROUPS;
+            }
             expected.resize(size);
             std::generate(expected.begin(), expected.end(), gen);
             std::vector<TYPE> data(expected.begin(), expected.end());
