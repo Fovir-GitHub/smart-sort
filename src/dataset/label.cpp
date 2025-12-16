@@ -251,7 +251,7 @@ int getBestAlgorithm(Array & source, int direction) {
     if (result == "Bubble Sort") {
         return 1;
     }
-    if (result == "Selection Sort") {
+    if (result == "Insertion Sort") {
         return 2;
     }
     if (result == "Merge Sort") {
