@@ -3,6 +3,7 @@
 #include <functional>
 #include <gtest/gtest.h>
 #include <random>
+#include <sched.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -58,6 +59,10 @@ AlgorithmMap<TYPE> getAlgorithmMapByType(COMPARE cmp = std::less<>{}) {
              [cmp](std::vector<TYPE> & v) {
                  smart_sort::selectionSort(v.begin(), v.end(), cmp);
              }},
+            {"Insertion Sort",
+             [cmp](std::vector<TYPE> & v) {
+                 smart_sort::insertionSort(v.begin(), v.end(), cmp);
+             }},
             {"Merge Sort",
              [cmp](std::vector<TYPE> & v) {
                  smart_sort::mergeSort(v.begin(), v.end(), cmp);
@@ -88,8 +93,11 @@ void testAlgorithm(std::mt19937 & gen, DIST & dist,
                    const int array_max_size = ARRAY_MAX_SIZE) {
     std::vector<TYPE> expected;
     for (const auto & [name, func] : algorithm_map) {
-        for (int i = 0; i < TEST_GROUPS; i++) {
+        for (int i = 0; i < TEST_GROUPS + 3; i++) {
             int size = static_cast<int>(dist(gen)) % array_max_size;
+            if (i >= TEST_GROUPS) {
+                size = i - TEST_GROUPS;
+            }
             expected.resize(size);
             std::generate(expected.begin(), expected.end(), gen);
             std::vector<TYPE> data(expected.begin(), expected.end());

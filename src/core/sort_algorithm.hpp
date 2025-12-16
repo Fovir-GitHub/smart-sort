@@ -45,6 +45,23 @@ void selectionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
 }
 
 template <typename Iter, typename Compare = std::less<>>
+void insertionSort(Iter start, Iter end, Compare cmp = std::less<>{}) {
+    if (start >= end) {
+        return;
+    }
+
+    for (Iter i = start + 1; i != end; i++) {
+        auto base = *i;
+        Iter j = i - 1;
+        while (j >= start && cmp(base, *j)) {
+            *(j + 1) = *j;
+            j--;
+        }
+        *(j + 1) = base;
+    }
+}
+
+template <typename Iter, typename Compare = std::less<>>
 void merge(Iter start, Iter mid, Iter end, Compare cmp = std::less<>{}) {
     using ValueType = typename std::iterator_traits<Iter>::value_type;
     std::vector<ValueType> left_temp(start, mid);
