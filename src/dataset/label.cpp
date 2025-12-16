@@ -221,7 +221,7 @@ double getSortedSuffixLength(const Array & source, int direction) {
  * @param direction `1` -- ascending, `-1` -- descending
  * @return the best sorting algorithm:
  *      - `1` --  Bubble Sort
- *      - `2` --  Selection Sort
+ *      - `2` --  Insertion Sort
  *      - `3` --  Merge Sort
  *      - `4` --  Quick Sort
  */
@@ -232,11 +232,11 @@ int getBestAlgorithm(Array & source, int direction) {
     std::string result;
     long double faster = std::numeric_limits<long double>::max();
     for (const auto & [name, func] : algorithm_map) {
-        // Skip bubble sort and selection sort when the size is larger than
+        // Skip bubble sort and insertion sort when the size is larger than
         // `1000` to reduce the time cost.
         // NOLINTNEXTLINE
         if (source.size() > 1000 &&
-            (name == "Bubble Sort" || name == "Selection Sort")) {
+            (name == "Bubble Sort" || name == "Insertion Sort")) {
             continue;
         }
 
