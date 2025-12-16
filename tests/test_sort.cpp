@@ -3,6 +3,7 @@
 #include <functional>
 #include <gtest/gtest.h>
 #include <random>
+#include <sched.h>
 #include <string>
 #include <unordered_map>
 #include <vector>
