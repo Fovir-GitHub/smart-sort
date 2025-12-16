@@ -1,3 +1,8 @@
+/**
+ * @file src/dataset/feature_extractor.cpp
+ * @brief Extract features of each group of data from the dataset.
+ */
+
 #include "label.hpp"
 #include <fstream>
 #include <iostream>
@@ -31,6 +36,8 @@ int main(int argc, char ** argv) {
         "sort_direction",
         "best_algorithm",
     };
+
+    // Get total lines in the file.
     int line = 1;
     int total_lines = 0;
     std::string temp;
@@ -40,6 +47,7 @@ int main(int argc, char ** argv) {
     fin.clear();
     fin.seekg(0);
 
+    // Output the header of CSV file.
     for (int i = 0; i < csvHeader.size(); i++) {
         fout << csvHeader[i] << (i == csvHeader.size() - 1 ? "\n" : ",");
     }
@@ -48,6 +56,7 @@ int main(int argc, char ** argv) {
     while (fin) {
         smart_sort::getRawData(source, fin);
         if (fin) {
+            // Label data ascending and descending.
             smart_sort::labelData(source, fout, 1);
             smart_sort::labelData(source, fout, -1);
             fout.flush();

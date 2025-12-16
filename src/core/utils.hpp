@@ -16,6 +16,12 @@ using AlgorithmMap =
 
 const int DEFAULT_RUN_TIMES = 10;
 
+/**
+ * @brief Measure the running time of a function in nano seconds.
+ *
+ * @param f function to be measured
+ * @return the running time
+ */
 template <typename FUNCTION>
 long long measureTime(FUNCTION f) {
     using namespace std::chrono;
@@ -25,6 +31,13 @@ long long measureTime(FUNCTION f) {
     return duration_cast<nanoseconds>(end_time - start_time).count();
 }
 
+/**
+ * @brief Measure the average running time of a function to avoid bias.
+ *
+ * @param f function to be measured
+ * @param times testing times
+ * @return the average running time
+ */
 template <typename FUNCTION>
 long double measureAverageTime(FUNCTION f, int times = DEFAULT_RUN_TIMES) {
     long double result = 0.0;

@@ -1,3 +1,8 @@
+/**
+ * @file src/dataset/generate-answer.cpp
+ * @brief Generate best algorithm to validate AI accuracy.
+ */
+
 #include "label.hpp"
 #include <fstream>
 #include <iostream>
