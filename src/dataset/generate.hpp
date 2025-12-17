@@ -24,9 +24,9 @@ std::string dataTypeToString(DataType t);
 
 void generateRandom(std::vector<int> & arr);
 
-void generateNearlySorted_increasing(std::vector<int> & arr);
+void generateNearlySortedAscending(std::vector<int> & arr);
 
-void generateNearlySorted_decreasing(std::vector<int> & arr);
+void generateNearlySortedDescending(std::vector<int> & arr);
 
 void generateReversed(std::vector<int> & arr);
 
