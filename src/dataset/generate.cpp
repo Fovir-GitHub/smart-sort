@@ -1,16 +1,38 @@
-// NOLINTBEGIN
-
 #include "generate.hpp"
+#include "core/utils.hpp"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <numeric>
+#include <random>
+#include <string>
+#include <vector>
+
+static int randomInteger(int upper, int lower = 0) {
+    static std::mt19937 gen = smart_sort::getRandomGenerator();
+    std::uniform_int_distribution<> dist(lower, std::max(lower, upper - 1));
+    return dist(gen);
+}
 
 namespace smart_sort {
 
+enum DATASET_CONSTANT {
+    VALUE_UPPER_BOUNDARY = 1000000,
+    SWAP_ELEMENT_RATIO = 100,
+    FEW_UNIQUE = 5,
+    LARGE_RANDOM_LOWER_SIZE = 20000,
+    LARGE_RANDOM_UPPER_SIZE = 100000,
+    DEFAULT_RANDOM_LOWER_SIZE = 10,
+    DEFAULT_RANDOM_UPPER_SIZE = 5000,
+    DEFAULT_SAMPLE_SIZE = 10000,
+    NUMBER_OF_DATA_TYPE = 5,
+    SMALL_ARRAY_SIZE = 1000,
+};
+
 // Method: Generate Random Array
 void fillRandom(std::vector<int> & arr, int maxValue) {
-    for (int & i : arr) {
-        i = std::rand() % maxValue;
-    }
+    std::generate(arr.begin(), arr.end(),
+                  [maxValue]() { return randomInteger(maxValue); });
 }
 
 // printArray
@@ -41,52 +63,37 @@ std::string dataTypeToString(DataType t) {
 // Five methods to generate different types of raw data
 
 // 1. Random(Normal size)
-void generateRandom(std::vector<int> & arr) { fillRandom(arr, 1000000); }
+void generateRandom(std::vector<int> & arr) {
+    fillRandom(arr, DATASET_CONSTANT::VALUE_UPPER_BOUNDARY);
+}
 
-/*
- 2. Nearly Sorted(The logic is: generate the increasing array/ decreasing array,
- and then change 1% of them)
- */
-void generateNearlySorted_increasing(std::vector<int> & arr) {
-    int n = static_cast<int>(arr.size());
-
-    // increasing array
-    for (int i = 0; i < n; ++i) {
-        arr[i] = i;
-    }
-
-    // change elements
-    int swaps = std::max(1, n / 100);
+static void swapElements(std::vector<int> & arr) {
+    const int n = static_cast<int>(arr.size());
+    const int swaps = std::max(1, n / DATASET_CONSTANT::SWAP_ELEMENT_RATIO);
     for (int k = 0; k < swaps; ++k) {
-        int i = std::rand() % n;
-        int j = std::rand() % n;
+        const int i = randomInteger(n);
+        const int j = randomInteger(n);
         std::swap(arr[i], arr[j]);
     }
 }
 
-void generateNearlySorted_decreasing(std::vector<int> & arr) {
-    int n = static_cast<int>(arr.size());
+/*
+ 2. Nearly Sorted(The logic is: generate the increasing array / decreasing
+ array, and then change 1% of them)
+ */
+void generateNearlySortedAscending(std::vector<int> & arr) {
+    std::iota(arr.begin(), arr.end(), 0);
+    swapElements(arr);
+}
 
-    // decreasing
-    for (int i = 0; i < n; ++i) {
-        arr[i] = n - i;
-    }
-
-    // change
-    int swaps = std::max(1, n / 100);
-    for (int k = 0; k < swaps; ++k) {
-        int i = std::rand() % n;
-        int j = std::rand() % n;
-        std::swap(arr[i], arr[j]);
-    }
+void generateNearlySortedDescending(std::vector<int> & arr) {
+    std::iota(arr.rbegin(), arr.rend(), 0);
+    swapElements(arr);
 }
 
 // 3. Reversed
 void generateReversed(std::vector<int> & arr) {
-    int n = static_cast<int>(arr.size());
-    for (int i = 0; i < n; ++i) {
-        arr[i] = n - i; // n, n-1, ..., 1
-    }
+    std::iota(arr.rbegin(), arr.rend(), 1);
 }
 
 /*
@@ -94,14 +101,14 @@ void generateReversed(std::vector<int> & arr) {
 size, so that the array has many elements repeated)
 */
 void generateFewUnique(std::vector<int> & arr) {
-    int nUnique = 5; // Only 5 values of the elements
-    for (int & i : arr) {
-        i = std::rand() % nUnique;
-    }
+    std::generate(arr.begin(), arr.end(),
+                  []() { return randomInteger(DATASET_CONSTANT::FEW_UNIQUE); });
 }
 
 // 5. LargeRandom：has very big array size
-void generateLargeRandom(std::vector<int> & arr) { fillRandom(arr, 1000000); }
+void generateLargeRandom(std::vector<int> & arr) {
+    fillRandom(arr, DATASET_CONSTANT::VALUE_UPPER_BOUNDARY);
+}
 
 // use the 5 methods according to the type needed
 void generateByType(std::vector<int> & arr, DataType type) {
@@ -110,11 +117,11 @@ void generateByType(std::vector<int> & arr, DataType type) {
         generateRandom(arr);
         break;
     case DataType::NearlySorted: {
-        int coin = std::rand() % 2;
+        const int coin = randomInteger(2);
         if (coin == 0) {
-            generateNearlySorted_decreasing(arr);
+            generateNearlySortedDescending(arr);
         } else {
-            generateNearlySorted_increasing(arr);
+            generateNearlySortedAscending(arr);
         }
         break;
     }
@@ -138,89 +145,77 @@ Large Random: 20000 ~ 100000
 int generateSizeForType(DataType type) {
     switch (type) {
     case DataType::LargeRandom: {
-        int minN = 20000;
-        int span = 80001; // 20000 ~ 100000
-        return minN + (std::rand() % span);
+        return randomInteger(DATASET_CONSTANT::LARGE_RANDOM_UPPER_SIZE,
+                             DATASET_CONSTANT::LARGE_RANDOM_LOWER_SIZE);
     }
     default: {
-        int minN = 10;
-        int span = 4991; // 10 ~ 5000
-        return minN + (std::rand() % span);
+        return randomInteger(DATASET_CONSTANT::DEFAULT_RANDOM_UPPER_SIZE,
+                             DATASET_CONSTANT::DEFAULT_RANDOM_LOWER_SIZE);
     }
     }
 }
 
 } // namespace smart_sort
 
-int main() {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    std::ofstream fout("sample-100.csv");
+int main(int argc, char ** argv) {
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " /path/to/output/file\n";
+        return -1;
+    }
+
+    const std::string filepath = argv[1];
+    std::ofstream fout(filepath);
     if (!fout.is_open()) {
-        std::cerr << "Failed to open raw_data.csv for writing.\n";
-        return 1;
+        std::cerr << "Failed to open " << filepath << " for writing.\n";
+        return -1;
     } // Error
 
-    int samplesPerType =
-        10000; // every type of data, we generate 20,000 samples
+    const int samplesPerType = smart_sort::DATASET_CONSTANT::
+        DEFAULT_SAMPLE_SIZE; // every type of data, we generate 20,000 samples
     int sampleId = 0;
-    for (int t = 0; t < 5; ++t) {
+    for (int t = 0; t < smart_sort::DATASET_CONSTANT::NUMBER_OF_DATA_TYPE;
+         ++t) {
         auto type = static_cast<smart_sort::DataType>(t);
-        int samples = 0;
-        switch (type) {
-        case smart_sort::DataType::Random:
-        case smart_sort::DataType::LargeRandom:
-            samples = 30;
-            break;
-        case smart_sort::DataType::Reversed:
-            samples = 20;
-            break;
-        case smart_sort::DataType::FewUnique:
-        case smart_sort::DataType::NearlySorted:
-            samples = 10;
-            break;
-        }
-
-        samples *= 5;
-        for (int k = 0; k < samples; ++k) {
+        for (int k = 0; k < samplesPerType; ++k) {
             // large size or normal size
-            int n = smart_sort::generateSizeForType(type);
+            const int n = smart_sort::generateSizeForType(type);
             std::vector<int> arr(n);
 
             // generate data
             smart_sort::generateByType(arr, type);
 
             // edit CSV
-            for (int idx = 0; idx < n; ++idx) {
-                fout << arr[idx] << " "; // value
+            for (const auto & data : arr) {
+                fout << data << " ";
             }
-            sampleId++;
             fout << "\n";
+            sampleId++;
         }
 
-        for (int k = 0; k < samples; ++k) {
-            // large size or normal size
-            int n = (smart_sort::generateSizeForType(type) % 1000) + 1;
-            if (type == smart_sort::DataType::LargeRandom) {
-                n = generateSizeForType(type);
-            }
-
-            std::vector<int> arr(n);
-
-            // generate data
-            smart_sort::generateByType(arr, type);
-
-            // edit CSV
-            for (int idx = 0; idx < n; ++idx) {
-                fout << arr[idx] << " "; // value
-            }
-            sampleId++;
-            fout << "\n";
-        }
+        // for (int k = 0; k < samples; ++k) {
+        //     // large size or normal size
+        //     int n = (smart_sort::generateSizeForType(type) %
+        //              smart_sort::DATASET_CONSTANT::SMALL_ARRAY_SIZE) +
+        //             1;
+        //     if (type == smart_sort::DataType::LargeRandom) {
+        //         n = generateSizeForType(type);
+        //     }
+        //
+        //     std::vector<int> arr(n);
+        //
+        //     // generate data
+        //     smart_sort::generateByType(arr, type);
+        //
+        //     // edit CSV
+        //     for (int idx = 0; idx < n; ++idx) {
+        //         fout << arr[idx] << " "; // value
+        //     }
+        //     sampleId++;
+        //     fout << "\n";
+        // }
     }
 
     fout.close();
-    std::cout << "Raw data written to raw_data.csv\n";
+    std::cout << "Data written to " << filepath << "\n";
     return 0;
 }
-
-// NOLINTEND
