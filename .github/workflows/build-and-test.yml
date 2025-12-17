@@ -37,8 +37,11 @@ jobs:
         shell: pwsh
         run: |
           cmake -S . -B build `
-          -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake `
-          -DVCPKG_TARGET_TRIPLET=x64-windows
+            -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            -Dgtest_disable_pthreads=ON `
+            -Dgtest_force_shared_crt=ON `
+            -DCMAKE_CXX_FLAGS="/EHsc /DGTEST_HAS_PTHREAD=0 /DGTEST_OS_WINDOWS=1"
           cmake --build build --config Release
 
       - name: Run tests
