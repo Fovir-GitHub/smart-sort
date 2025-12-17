@@ -1,15 +1,22 @@
-// NOLINTBEGIN
-
 #include "generate.hpp"
+#include "core/utils.hpp"
+#include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <random>
+
+static int randomInteger(int upper, int lower = 0) {
+    static std::mt19937 gen = smart_sort::getRandomGenerator();
+    std::uniform_int_distribution<> dist(lower, std::max(lower, upper - 1));
+    return dist(gen);
+}
 
 namespace smart_sort {
 
 // Method: Generate Random Array
 void fillRandom(std::vector<int> & arr, int maxValue) {
     for (int & i : arr) {
-        i = std::rand() % maxValue;
+        i = randomInteger(maxValue);
     }
 }
 
@@ -58,8 +65,8 @@ void generateNearlySorted_increasing(std::vector<int> & arr) {
     // change elements
     int swaps = std::max(1, n / 100);
     for (int k = 0; k < swaps; ++k) {
-        int i = std::rand() % n;
-        int j = std::rand() % n;
+        int i = randomInteger(n);
+        int j = randomInteger(n);
         std::swap(arr[i], arr[j]);
     }
 }
@@ -75,8 +82,8 @@ void generateNearlySorted_decreasing(std::vector<int> & arr) {
     // change
     int swaps = std::max(1, n / 100);
     for (int k = 0; k < swaps; ++k) {
-        int i = std::rand() % n;
-        int j = std::rand() % n;
+        int i = randomInteger(n);
+        int j = randomInteger(n);
         std::swap(arr[i], arr[j]);
     }
 }
@@ -96,7 +103,7 @@ size, so that the array has many elements repeated)
 void generateFewUnique(std::vector<int> & arr) {
     int nUnique = 5; // Only 5 values of the elements
     for (int & i : arr) {
-        i = std::rand() % nUnique;
+        i = randomInteger(nUnique);
     }
 }
 
@@ -110,7 +117,7 @@ void generateByType(std::vector<int> & arr, DataType type) {
         generateRandom(arr);
         break;
     case DataType::NearlySorted: {
-        int coin = std::rand() % 2;
+        int coin = randomInteger(2);
         if (coin == 0) {
             generateNearlySorted_decreasing(arr);
         } else {
@@ -140,12 +147,12 @@ int generateSizeForType(DataType type) {
     case DataType::LargeRandom: {
         int minN = 20000;
         int span = 80001; // 20000 ~ 100000
-        return minN + (std::rand() % span);
+        return randomInteger(span, minN);
     }
     default: {
         int minN = 10;
         int span = 4991; // 10 ~ 5000
-        return minN + (std::rand() % span);
+        return randomInteger(span, minN);
     }
     }
 }
@@ -153,8 +160,7 @@ int generateSizeForType(DataType type) {
 } // namespace smart_sort
 
 int main() {
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    std::ofstream fout("sample-100.csv");
+    std::ofstream fout("temp.csv");
     if (!fout.is_open()) {
         std::cerr << "Failed to open raw_data.csv for writing.\n";
         return 1;
@@ -222,5 +228,3 @@ int main() {
     std::cout << "Raw data written to raw_data.csv\n";
     return 0;
 }
-
-// NOLINTEND
