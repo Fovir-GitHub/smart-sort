@@ -20,6 +20,7 @@
     devShells.${system}.default = pkgs.mkShell {
       # Add packages here.
       buildInputs = with pkgs; [
+        (pkgs.python3.withPackages (python-pkgs: with python-pkgs; [pandas pyarrow]))
         cgdb
         clang-tools
         cmake

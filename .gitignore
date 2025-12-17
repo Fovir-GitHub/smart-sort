@@ -59,3 +59,7 @@ CMakeUserPresets.json
 
 .cache/
 build/
+
+*.csv
+parquet-data/
+data/

@@ -1,0 +1,69 @@
+/**
+ * @file src/dataset/feature_extractor.cpp
+ * @brief Extract features of each group of data from the dataset.
+ */
+
+#include "label.hpp"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include <vector>
+
+int main(int argc, char ** argv) {
+    if (argc != 3) {
+        std::cerr << "Usage: feature_extractor /path/to/source/file "
+                     "/path/to/output/file\n";
+        return -1;
+    }
+
+    std::ifstream fin(argv[1]);
+    std::ofstream fout(argv[2]);
+    if (fin.fail() || fout.fail()) {
+        std::cerr << "Failed to open file\n";
+        return -1;
+    }
+
+    const std::vector<std::string> csvHeader = {
+        "size",
+        "order_ratio",
+        "effective_order",
+        "duplicated_rank",
+        "unique_ratio",
+        "entropy",
+        "value_range",
+        "sorted_prefix_length",
+        "sorted_suffix_length",
+        "sort_direction",
+        "best_algorithm",
+    };
+
+    // Get total lines in the file.
+    int line = 1;
+    int total_lines = 0;
+    std::string temp;
+    while (std::getline(fin, temp)) {
+        total_lines++;
+    }
+    fin.clear();
+    fin.seekg(0);
+
+    // Output the header of CSV file.
+    for (int i = 0; i < csvHeader.size(); i++) {
+        fout << csvHeader[i] << (i == csvHeader.size() - 1 ? "\n" : ",");
+    }
+
+    smart_sort::Array source;
+    while (fin) {
+        smart_sort::getRawData(source, fin);
+        if (fin) {
+            // Label data ascending and descending.
+            smart_sort::labelData(source, fout, 1);
+            smart_sort::labelData(source, fout, -1);
+            fout.flush();
+            std::cout << "Current Line: " << line++ << " / " << total_lines
+                      << "\n";
+        }
+    }
+
+    return 0;
+}
