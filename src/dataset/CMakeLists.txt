@@ -17,6 +17,7 @@ target_include_directories(
 
 add_executable(feature_extractor feature_extractor.cpp)
 add_executable(generate-answer generate-answer.cpp)
+add_executable(generate-dataset generate.cpp)
 
 target_link_libraries(feature_extractor PRIVATE dataset)
 target_link_libraries(generate-answer PRIVATE dataset)
