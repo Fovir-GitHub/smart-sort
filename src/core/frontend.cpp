@@ -1,6 +1,8 @@
 #include "frontend.hpp"
 #include "dataset/generate.hpp"
+#include <cstdlib>
 #include <iostream>
+#include <limits>
 #include <string>
 
 namespace smart_sort {
@@ -23,6 +25,34 @@ void displayDatasetMenu() {
                   << "\n";
     }
     PRINT_BORDER('=');
+}
+
+DataType getDatasetType() {
+    int choice = 0;
+    while (choice <= 0 ||
+           choice > static_cast<int>(DATASET_CONSTANT::NUMBER_OF_DATA_TYPE)) {
+        displayDatasetMenu();
+        std::cout << "\nSelect a dataset type: ";
+        if (!(std::cin >> choice)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            continue;
+        }
+    }
+
+    return static_cast<DataType>(choice - 1);
+}
+
+int getDatasetSize() {
+    int size = 0;
+    std::cout << "Enter the dataset size: ";
+    std::cin >> size;
+    if (std::cin.fail()) {
+        std::cerr << "Failed to read an integer. Size changes to 0\n";
+        size = 0;
+    }
+
+    return size;
 }
 
 } // namespace smart_sort
