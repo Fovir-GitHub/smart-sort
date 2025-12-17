@@ -6,5 +6,4 @@ add_subdirectory(dataset)
 
 add_executable(smart-sort ${SRC_SRCS})
 
-target_link_libraries(smart-sort PRIVATE core)
-target_link_libraries(smart-sort PRIVATE dataset)
+target_link_libraries(smart-sort PRIVATE core dataset)
