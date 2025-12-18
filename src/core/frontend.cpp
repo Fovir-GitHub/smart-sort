@@ -1,9 +1,12 @@
 #include "frontend.hpp"
 #include "dataset/generate.hpp"
+#include "utils.hpp"
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <string>
+#include <vector>
 
 namespace smart_sort {
 
@@ -53,6 +56,26 @@ int getDatasetSize() {
     }
 
     return size;
+}
+
+std::vector<AlgorithmPerformance>
+getAllAlgorithmPerformance(std::vector<int> & arr) {
+    std::vector<AlgorithmPerformance> result;
+    int counter = 0;
+    long long execution_time = 0;
+    auto cmp = [&counter](int a, int b) {
+        counter++;
+        return std::less<>{}(a, b);
+    };
+    auto algorithm_map = getAlgorithmMapByType<int>(cmp);
+
+    for (const auto & [name, func] : algorithm_map) {
+        execution_time = measureTime([arr, func]() mutable { func(arr); });
+        result.emplace_back(name, counter, execution_time);
+        counter = 0;
+    }
+
+    return result;
 }
 
 } // namespace smart_sort
