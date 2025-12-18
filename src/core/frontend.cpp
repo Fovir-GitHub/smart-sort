@@ -2,6 +2,7 @@
 #include "dataset/generate.hpp"
 #include "utils.hpp"
 #include <algorithm>
+#include <cstddef>
 #include <cstdlib>
 #include <functional>
 #include <iostream>
@@ -71,6 +72,11 @@ getAllAlgorithmPerformance(std::vector<int> & arr) {
     auto algorithm_map = getAlgorithmMapByType<int>(cmp);
 
     for (const auto & [name, func] : algorithm_map) {
+        if (arr.size() >
+                static_cast<size_t>(DATASET_CONSTANT::SMALL_ARRAY_SIZE) &&
+            (name == "Bubble Sort" || name == "Insertion Sort")) {
+            continue;
+        }
         execution_time = static_cast<long long>(
             measureAverageTime([arr, func]() mutable { func(arr); }));
         result.emplace_back(name, counter, execution_time);
