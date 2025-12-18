@@ -147,6 +147,7 @@ void displayAlgorithmPerformanceInTable(
                   << algo.execution_time << "|\n";
         PRINT_HORIZONTAL_LINE();
     }
+    std::cout << "\n";
 }
 
 } // namespace smart_sort
