@@ -16,6 +16,15 @@ std::mt19937 getRandomGenerator() {
     return gen;
 }
 
+std::string array2string(const std::vector<int> & arr) {
+    std::ostringstream oss;
+    oss << "[";
+    for (int i = 0; i < arr.size(); i++) {
+        oss << arr[i] << ((i == arr.size() - 1) ? "]" : ",");
+    }
+    return oss.str();
+}
+
 std::string getAIBestChoice(const std::vector<int> & arr) {
     const static int BUFFER_SIZE = 128;
     const static std::vector<std::string> ALGORITHMS = {
@@ -25,12 +34,6 @@ std::string getAIBestChoice(const std::vector<int> & arr) {
         "Quick Sort",
     };
 
-    std::ostringstream oss;
-    oss << "[";
-    for (int i = 0; i < arr.size(); i++) {
-        oss << arr[i] << ((i == arr.size() - 1) ? "]" : ",");
-    }
-
 #ifdef _WIN32
 #define popen _popen
 #define pclose _pclose
@@ -39,8 +42,8 @@ std::string getAIBestChoice(const std::vector<int> & arr) {
     const std::string redirect = " 2>/dev/null";
 #endif
 
-    const std::string cmd =
-        "python3 MLmodel/predict_api.py \'" + oss.str() + "\' 1" + redirect;
+    const std::string cmd = "python3 MLmodel/predict_api.py \'" +
+                            array2string(arr) + "\' 1" + redirect;
 
     // NOLINTNEXTLINE
     FILE * pipe = popen(cmd.c_str(), "r");
