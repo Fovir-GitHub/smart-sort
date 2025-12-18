@@ -71,7 +71,8 @@ getAllAlgorithmPerformance(std::vector<int> & arr) {
     auto algorithm_map = getAlgorithmMapByType<int>(cmp);
 
     for (const auto & [name, func] : algorithm_map) {
-        execution_time = measureTime([arr, func]() mutable { func(arr); });
+        execution_time = static_cast<long long>(
+            measureAverageTime([arr, func]() mutable { func(arr); }));
         result.emplace_back(name, counter, execution_time);
         counter = 0;
     }
@@ -101,7 +102,8 @@ void displayAlgorithmPerformanceInTable(
 
     const std::string NAME_COLUMN_HEADER = "Algorithm";
     const std::string COMPARISONS_COLUMN_HEADER = "Comparison Times";
-    const std::string EXECTION_TIME_COLUMN_HEADER = " Execution Time (ns)";
+    const std::string EXECTION_TIME_COLUMN_HEADER =
+        "Average Execution Time (ns)";
     const size_t NAME_COLUMN_WIDTH = GET_COLUMN_WIDTH(
         [](const auto & a) { return a.name; }, NAME_COLUMN_HEADER);
     const size_t COMPARISONS_COLUMN_WIDTH =
