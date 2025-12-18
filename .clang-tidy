@@ -7,6 +7,7 @@ Checks:
   - -fuchsia*
   - -google*
   - -hicpp-explicit-conversions
+  - -hicpp-no-array-decay
   - -hicpp-special-member-functions
   - -llvm*
   - -misc-no-recursion
