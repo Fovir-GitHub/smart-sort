@@ -81,4 +81,8 @@ AlgorithmMap<TYPE> getAlgorithmMapByType(COMPARE cmp = std::less<>{}) {
 
 std::mt19937 getRandomGenerator();
 
+std::string array2string(const std::vector<int> & arr);
+
+std::string getAIBestChoice(const std::vector<int> & arr);
+
 } // namespace smart_sort

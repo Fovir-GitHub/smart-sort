@@ -1,7 +1,6 @@
 #include "generate.hpp"
 #include "core/utils.hpp"
 #include <algorithm>
-#include <fstream>
 #include <iostream>
 #include <numeric>
 #include <random>
@@ -15,19 +14,6 @@ static int randomInteger(int upper, int lower = 0) {
 }
 
 namespace smart_sort {
-
-enum DATASET_CONSTANT {
-    VALUE_UPPER_BOUNDARY = 1000000,
-    SWAP_ELEMENT_RATIO = 100,
-    FEW_UNIQUE = 5,
-    LARGE_RANDOM_LOWER_SIZE = 20000,
-    LARGE_RANDOM_UPPER_SIZE = 100000,
-    DEFAULT_RANDOM_LOWER_SIZE = 10,
-    DEFAULT_RANDOM_UPPER_SIZE = 5000,
-    DEFAULT_SAMPLE_SIZE = 10000,
-    NUMBER_OF_DATA_TYPE = 5,
-    SMALL_ARRAY_SIZE = 1000,
-};
 
 // Method: Generate Random Array
 void fillRandom(std::vector<int> & arr, int maxValue) {
@@ -64,12 +50,13 @@ std::string dataTypeToString(DataType t) {
 
 // 1. Random(Normal size)
 void generateRandom(std::vector<int> & arr) {
-    fillRandom(arr, DATASET_CONSTANT::VALUE_UPPER_BOUNDARY);
+    fillRandom(arr, static_cast<int>(DATASET_CONSTANT::VALUE_UPPER_BOUNDARY));
 }
 
 static void swapElements(std::vector<int> & arr) {
     const int n = static_cast<int>(arr.size());
-    const int swaps = std::max(1, n / DATASET_CONSTANT::SWAP_ELEMENT_RATIO);
+    const int swaps =
+        std::max(1, n / static_cast<int>(DATASET_CONSTANT::SWAP_ELEMENT_RATIO));
     for (int k = 0; k < swaps; ++k) {
         const int i = randomInteger(n);
         const int j = randomInteger(n);
@@ -101,13 +88,14 @@ void generateReversed(std::vector<int> & arr) {
 size, so that the array has many elements repeated)
 */
 void generateFewUnique(std::vector<int> & arr) {
-    std::generate(arr.begin(), arr.end(),
-                  []() { return randomInteger(DATASET_CONSTANT::FEW_UNIQUE); });
+    std::generate(arr.begin(), arr.end(), []() {
+        return randomInteger(static_cast<int>(DATASET_CONSTANT::FEW_UNIQUE));
+    });
 }
 
 // 5. LargeRandom：has very big array size
 void generateLargeRandom(std::vector<int> & arr) {
-    fillRandom(arr, DATASET_CONSTANT::VALUE_UPPER_BOUNDARY);
+    fillRandom(arr, static_cast<int>(DATASET_CONSTANT::VALUE_UPPER_BOUNDARY));
 }
 
 // use the 5 methods according to the type needed
@@ -145,77 +133,16 @@ Large Random: 20000 ~ 100000
 int generateSizeForType(DataType type) {
     switch (type) {
     case DataType::LargeRandom: {
-        return randomInteger(DATASET_CONSTANT::LARGE_RANDOM_UPPER_SIZE,
-                             DATASET_CONSTANT::LARGE_RANDOM_LOWER_SIZE);
+        return randomInteger(
+            static_cast<int>(DATASET_CONSTANT::LARGE_RANDOM_UPPER_SIZE),
+            static_cast<int>(DATASET_CONSTANT::LARGE_RANDOM_LOWER_SIZE));
     }
     default: {
-        return randomInteger(DATASET_CONSTANT::DEFAULT_RANDOM_UPPER_SIZE,
-                             DATASET_CONSTANT::DEFAULT_RANDOM_LOWER_SIZE);
+        return randomInteger(
+            static_cast<int>(DATASET_CONSTANT::DEFAULT_RANDOM_UPPER_SIZE),
+            static_cast<int>(DATASET_CONSTANT::DEFAULT_RANDOM_LOWER_SIZE));
     }
     }
 }
 
 } // namespace smart_sort
-
-int main(int argc, char ** argv) {
-    if (argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " /path/to/output/file\n";
-        return -1;
-    }
-
-    const std::string filepath = argv[1];
-    std::ofstream fout(filepath);
-    if (!fout.is_open()) {
-        std::cerr << "Failed to open " << filepath << " for writing.\n";
-        return -1;
-    } // Error
-
-    const int samplesPerType = smart_sort::DATASET_CONSTANT::
-        DEFAULT_SAMPLE_SIZE; // every type of data, we generate 20,000 samples
-    int sampleId = 0;
-    for (int t = 0; t < smart_sort::DATASET_CONSTANT::NUMBER_OF_DATA_TYPE;
-         ++t) {
-        auto type = static_cast<smart_sort::DataType>(t);
-        for (int k = 0; k < samplesPerType; ++k) {
-            // large size or normal size
-            const int n = smart_sort::generateSizeForType(type);
-            std::vector<int> arr(n);
-
-            // generate data
-            smart_sort::generateByType(arr, type);
-
-            // edit CSV
-            for (const auto & data : arr) {
-                fout << data << " ";
-            }
-            fout << "\n";
-            sampleId++;
-        }
-
-        // for (int k = 0; k < samples; ++k) {
-        //     // large size or normal size
-        //     int n = (smart_sort::generateSizeForType(type) %
-        //              smart_sort::DATASET_CONSTANT::SMALL_ARRAY_SIZE) +
-        //             1;
-        //     if (type == smart_sort::DataType::LargeRandom) {
-        //         n = generateSizeForType(type);
-        //     }
-        //
-        //     std::vector<int> arr(n);
-        //
-        //     // generate data
-        //     smart_sort::generateByType(arr, type);
-        //
-        //     // edit CSV
-        //     for (int idx = 0; idx < n; ++idx) {
-        //         fout << arr[idx] << " "; // value
-        //     }
-        //     sampleId++;
-        //     fout << "\n";
-        // }
-    }
-
-    fout.close();
-    std::cout << "Data written to " << filepath << "\n";
-    return 0;
-}
