@@ -27,4 +27,7 @@ int getDatasetSize();
 std::vector<AlgorithmPerformance>
 getAllAlgorithmPerformance(std::vector<int> & arr);
 
+void displayAlgorithmPerformanceInTable(
+    const std::vector<AlgorithmPerformance> & algorithm_performance);
+
 } // namespace smart_sort
