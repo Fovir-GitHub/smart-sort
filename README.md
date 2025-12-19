@@ -3,7 +3,7 @@
 This repository stores the source code of **SmartSort**, including
 the core implementation with C++ and a machine-learning–based sorting model.
 
-## Environment
+## Pre-requirement
 
 ### System Toolchain (for native build)
 
@@ -85,3 +85,25 @@ python ./MLmodel/predict_api.py "[1,2,3]" 1
 pyproject.toml and poetry.lock are the source of truth for Python dependencies.
 requirements.txt (if present) is provided for reference only.
 Please install dependencies using poetry install to avoid version mismatches.
+**Mandatory**:
+
+| Tool                                             | Version  |
+| ------------------------------------------------ | -------- |
+| [`CMake`](https://cmake.org/)                    | `4.1.2`  |
+| [`GNU Make`](https://www.gnu.org/software/make/) | `4.4.1`  |
+| [`clang-format`](https://llvm.org/builds/)       | `21.1.2` |
+| [`clang-tidy`](https://llvm.org/builds/)         | `21.1.2` |
+| [`g++`](https://gcc.gnu.org/)                    | `14.3.0` |
+| [`git`](https://git-scm.com/)                    | `2.51.2` |
+| [`pre-commit`](https://pre-commit.com/)          | `4.3.0`  |
+
+_Optional_ but **recommend**:
+
+- [`just`](https://just.systems/): Providing a handy way to save and run project-specific commands.
+- [`gdb`](https://sourceware.org/gdb/) or [`cgdb`](https://cgdb.github.io/): Debugger.
+
+## Development
+
+Install all required tools above.
+
+Then follow the [CONTRIBUTING.md](https://github.com/Fovir-GitHub/smart-sort?tab=contributing-ov-file).
