@@ -83,6 +83,6 @@ std::mt19937 getRandomGenerator();
 
 std::string array2string(const std::vector<int> & arr);
 
-std::string getAIBestChoice(const std::vector<int> & arr, const int direction);
+std::string getAIBestChoice(const std::vector<int> & arr, int direction);
 
 } // namespace smart_sort
