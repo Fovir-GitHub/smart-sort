@@ -25,9 +25,10 @@ DataType getDatasetType();
 int getDatasetSize();
 
 std::vector<AlgorithmPerformance>
-getAllAlgorithmPerformance(std::vector<int> & arr);
+getAllAlgorithmPerformance(std::vector<int> & arr, int direction = 1);
 
 void displayAlgorithmPerformanceInTable(
-    const std::vector<AlgorithmPerformance> & algorithm_performance);
+    const std::vector<AlgorithmPerformance> & algorithm_performance_ascending,
+    const std::vector<AlgorithmPerformance> & algorithm_performance_descending);
 
 } // namespace smart_sort
