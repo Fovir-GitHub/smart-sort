@@ -25,7 +25,7 @@ std::string array2string(const std::vector<int> & arr) {
     return oss.str();
 }
 
-std::string getAIBestChoice(const std::vector<int> & arr) {
+std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
     const static int BUFFER_SIZE = 128;
     const static std::vector<std::string> ALGORITHMS = {
         "Bubble Sort",
@@ -43,7 +43,8 @@ std::string getAIBestChoice(const std::vector<int> & arr) {
 #endif
 
     const std::string cmd = "python3 MLmodel/predict_api.py \'" +
-                            array2string(arr) + "\' 1" + redirect;
+                            array2string(arr) + "\' " +
+                            std::to_string(direction) + redirect;
 
     // NOLINTNEXTLINE
     FILE * pipe = popen(cmd.c_str(), "r");
