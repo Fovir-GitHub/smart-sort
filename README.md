@@ -32,7 +32,7 @@ For **reproducibility**, we use **Conda + Poetry** to manage dependencies.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourname/SmartSort.git
+git clone https://github.com/Fovir-GitHub/smart-sort.git
 cd SmartSort
 ```
 
