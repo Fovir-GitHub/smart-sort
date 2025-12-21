@@ -54,8 +54,8 @@ std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
     const std::string redirect = " 2>/dev/null";
 #endif
 
-    const std::string cmd = "python3 MLmodel/predict_api.py " + temp_file +
-                            " " + std::to_string(direction) + redirect;
+    const std::string cmd = "python MLmodel/predict_api.py " + temp_file + " " +
+                            std::to_string(direction) + redirect;
 
     // NOLINTNEXTLINE
     FILE * pipe = popen(cmd.c_str(), "r");
