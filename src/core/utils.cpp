@@ -1,6 +1,8 @@
 #include "utils.hpp"
 #include <array>
 #include <cstdio>
+#include <filesystem>
+#include <fstream>
 #include <iostream>
 #include <random>
 #include <sstream>
@@ -34,6 +36,16 @@ std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
         "Quick Sort",
     };
 
+    const auto temp_dir = std::filesystem::temp_directory_path() / "smart-sort";
+    std::filesystem::create_directory(temp_dir);
+    const std::string temp_file = (temp_dir / "data.csv").string();
+    std::ofstream fout(temp_file);
+    if (fout.fail()) {
+        throw std::runtime_error("Failed to create temp file");
+    }
+    fout << array2string(arr) << "\n";
+    fout.close();
+
 #ifdef _WIN32
 #define popen _popen
 #define pclose _pclose
@@ -42,13 +54,13 @@ std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
     const std::string redirect = " 2>/dev/null";
 #endif
 
-    const std::string cmd = "python3 MLmodel/predict_api.py \'" +
-                            array2string(arr) + "\' " +
+    const std::string cmd = "python MLmodel/predict_api.py " + temp_file + " " +
                             std::to_string(direction) + redirect;
 
     // NOLINTNEXTLINE
     FILE * pipe = popen(cmd.c_str(), "r");
     if (!pipe) {
+        std::filesystem::remove_all(temp_dir);
         throw std::runtime_error("popen failed");
     }
 
@@ -61,6 +73,7 @@ std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
 
     // NOLINTNEXTLINE
     pclose(pipe);
+    std::filesystem::remove_all(temp_dir);
 
     return ALGORITHMS[std::stoi(result) - 1];
 }

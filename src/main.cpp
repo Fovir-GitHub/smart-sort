@@ -50,7 +50,7 @@ int main() {
     std::cout << "\n";
     std::cout << "AI-predicted Best Algorithm (Descending): "
               << AI_best_choice_descending << "\n"
-              << "Actual Best Algorithm (descending): "
+              << "Actual Best Algorithm (Descending): "
               << actual_best_choice_descending << "\n";
     std::cout.flush();
 
