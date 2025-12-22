@@ -2,6 +2,10 @@
 
 This repository stores the source code of **smart-sort**, including the core implementation with C++ and a machine-learning–based sorting model.
 
+**Sample output:**
+
+![Sample Output](./img/output-sample-1.png)
+
 ## Reproduce
 
 Please follow guides below based on your OS to reproduce this project.
