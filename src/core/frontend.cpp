@@ -179,9 +179,6 @@ void displayAlgorithmPerformanceInTable(
 
     // Function used to print the border of the table.
     const auto PRINT_HORIZONTAL_LINE = [&]() {
-        const static auto HORIZONTAL_COLUMN_LINE = [](const size_t length) {
-            return "+" + std::string(length, '-');
-        };
         std::cout
             << HORIZONTAL_COLUMN_LINE(NAME_COLUMN_WIDTH)
             << HORIZONTAL_COLUMN_LINE(COMPARISONS_COLUMN_ASCENDING_WIDTH)
