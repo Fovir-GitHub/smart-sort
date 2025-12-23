@@ -7,6 +7,11 @@
 
 namespace smart_sort {
 
+/**
+ * @class AlgorithmPerformance
+ * @brief Structure used to store performance of an algorithm, including the
+ * algorithm name, comparison times, and the average execution time.
+ */
 struct AlgorithmPerformance {
     std::string name;
     int comparisons;

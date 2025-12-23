@@ -12,6 +12,9 @@
 
 namespace smart_sort {
 
+/**
+ * @brief Display the menu of selecting dataset type.
+ */
 void displayDatasetMenu() {
     const int MENU_BORDER_DEFAULT_LENGTH = 20;
     const auto PRINT_BORDER = [MENU_BORDER_DEFAULT_LENGTH](char ch) {
@@ -32,8 +35,15 @@ void displayDatasetMenu() {
     PRINT_BORDER('=');
 }
 
+/**
+ * @brief Get choice of dataset type from user input.
+ *
+ * @return The corresponding dataset type stated in the `enum
+ * smart_sort::DataType`.
+ */
 DataType getDatasetType() {
     int choice = 0;
+    // Ask for choice until entering a valid option.
     while (choice <= 0 ||
            choice > static_cast<int>(DATASET_CONSTANT::NUMBER_OF_DATA_TYPE)) {
         displayDatasetMenu();
@@ -48,6 +58,12 @@ DataType getDatasetType() {
     return static_cast<DataType>(choice - 1);
 }
 
+/**
+ * @brief Get the size of dataset from user input.
+ *
+ * @return The size of dataset. If the `size` is invalid, it will be set to
+ * `0` by default.
+ */
 int getDatasetSize() {
     int size = 0;
     std::cout << "Enter the dataset size: ";
@@ -60,10 +76,19 @@ int getDatasetSize() {
     return size;
 }
 
+/**
+ * @brief Get performances of all algorithms.
+ *
+ * @param arr An array to be sorted.
+ * @param direction Determine whether the sorting direction is ascending or
+ * descending.
+ * @return A list of `AlgorithmPerformance`. When `arr.size()` is large, it will
+ * only return results of merge sort and quick sort.
+ */
 std::vector<AlgorithmPerformance>
 getAllAlgorithmPerformance(std::vector<int> & arr, int direction) {
     std::vector<AlgorithmPerformance> result;
-    int counter = 0;
+    int counter = 0; // Comparison time.
     long long execution_time = 0;
     auto cmp = [&counter, direction](int a, int b) {
         counter++;
@@ -72,6 +97,7 @@ getAllAlgorithmPerformance(std::vector<int> & arr, int direction) {
     auto algorithm_map = getAlgorithmMapByType<int>(cmp);
 
     for (const auto & [name, func] : algorithm_map) {
+        // Skip bubble sort and insertion sort when the dataset is large scale.
         if (arr.size() >
                 static_cast<size_t>(DATASET_CONSTANT::SMALL_ARRAY_SIZE) &&
             (name == "Bubble Sort" || name == "Insertion Sort")) {
@@ -86,10 +112,19 @@ getAllAlgorithmPerformance(std::vector<int> & arr, int direction) {
     return result;
 }
 
+/**
+ * @brief Show the results of algorithm performances in table format.
+ *
+ * @param algorithm_performance_ascending Algorithm performances in ascending
+ * order.
+ * @param algorithm_performance_descending Algorithm performances in descending
+ * order.
+ */
 void displayAlgorithmPerformanceInTable(
     const std::vector<AlgorithmPerformance> & algorithm_performance_ascending,
     const std::vector<AlgorithmPerformance> &
         algorithm_performance_descending) {
+    // Function used to get the column width.
     auto GET_COLUMN_WIDTH = [&](auto getter, const std::string & header) {
         if (algorithm_performance_ascending.empty()) {
             return header.length();
@@ -108,6 +143,8 @@ void displayAlgorithmPerformanceInTable(
         return std::max(max_width, header.length());
     };
 
+    // Define column headers and use the maximum width of the column as the
+    // column width.
     const std::string NAME_COLUMN_HEADER = "Algorithm";
     const std::string SORT_ASCENDING_HEADER = "Sort in Ascending Order";
     const std::string SORT_DESCENDING_HEADER = "Sort in Descending Order";
@@ -140,6 +177,7 @@ void displayAlgorithmPerformanceInTable(
         COMPARISONS_COLUMN_DESCENDING_WIDTH +
         EXECUTION_TIME_COLUMN_DESCENDING_WIDTH + 1;
 
+    // Function used to print the border of the table.
     const auto PRINT_HORIZONTAL_LINE = [&]() {
         const static auto HORIZONTAL_COLUMN_LINE = [](const size_t length) {
             return "+" + std::string(length, '-');
@@ -152,11 +190,14 @@ void displayAlgorithmPerformanceInTable(
             << HORIZONTAL_COLUMN_LINE(EXECUTION_TIME_COLUMN_DESCENDING_WIDTH)
             << "+\n";
     };
+
+    // Fill blanks in each table cell.
     const auto FILL_BLANK = [](const size_t width, const std::string & s) {
         return std::string(std::max(0, static_cast<int>(width - s.length())),
                            ' ');
     };
 
+    // Output the table.
     PRINT_HORIZONTAL_LINE();
     std::cout << "|" << std::string(NAME_COLUMN_HEADER.length(), ' ')
               << FILL_BLANK(NAME_COLUMN_WIDTH, NAME_COLUMN_HEADER) << "|"
