@@ -20,10 +20,11 @@ git clone https://github.com/Fovir-GitHub/smart-sort.git
 cd smart-sort
 ```
 
-2. Create `Python` virtual environment.
+2. Create `Python` virtual environment and activate it.
 
 ```ps1
 python -m venv .venv
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
