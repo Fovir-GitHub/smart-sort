@@ -77,7 +77,7 @@ def main():
     pred_id = int(model.predict(X)[0])
     pred_label = inverse_label_mapping[pred_id]
 
-    print(pred_label)
+    print(pred_label, flush=True)
 
 
 if __name__ == "__main__":
