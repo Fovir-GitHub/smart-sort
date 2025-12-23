@@ -71,13 +71,15 @@ std::string getAIBestChoice(const std::vector<int> & arr, const int direction) {
 #define popen _popen
 #define pclose _pclose
     const std::string redirect = " 2>null";
+    const std::string python_api = ".\\MLmodel\\predict_api.exe ";
 #else
     const std::string redirect = " 2>/dev/null";
+    const std::string python_api = "python MLmodel/predict_api.py ";
 #endif
 
     // Command used to call Python API.
-    const std::string cmd = "python MLmodel/predict_api.py " + temp_file + " " +
-                            std::to_string(direction) + redirect;
+    const std::string cmd =
+        python_api + temp_file + " " + std::to_string(direction) + redirect;
 
     // Read the result.
     FILE * pipe = popen(cmd.c_str(), "r"); // NOLINT
