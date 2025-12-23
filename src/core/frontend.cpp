@@ -140,10 +140,11 @@ void displayAlgorithmPerformanceInTable(
         COMPARISONS_COLUMN_DESCENDING_WIDTH +
         EXECUTION_TIME_COLUMN_DESCENDING_WIDTH + 1;
 
+    const static auto HORIZONTAL_COLUMN_LINE = [](const size_t length) {
+        return "+" + std::string(length, '-');
+    };
+
     const auto PRINT_HORIZONTAL_LINE = [&]() {
-        const static auto HORIZONTAL_COLUMN_LINE = [](const size_t length) {
-            return "+" + std::string(length, '-');
-        };
         std::cout
             << HORIZONTAL_COLUMN_LINE(NAME_COLUMN_WIDTH)
             << HORIZONTAL_COLUMN_LINE(COMPARISONS_COLUMN_ASCENDING_WIDTH)
@@ -157,7 +158,9 @@ void displayAlgorithmPerformanceInTable(
                            ' ');
     };
 
-    PRINT_HORIZONTAL_LINE();
+    std::cout << HORIZONTAL_COLUMN_LINE(NAME_COLUMN_WIDTH)
+              << HORIZONTAL_COLUMN_LINE(SORT_ASCENDING_HEADER_WIDTH)
+              << HORIZONTAL_COLUMN_LINE(SORT_DESCENDING_HEADER_WIDTH) << "+\n";
     std::cout << "|" << std::string(NAME_COLUMN_HEADER.length(), ' ')
               << FILL_BLANK(NAME_COLUMN_WIDTH, NAME_COLUMN_HEADER) << "|"
               << SORT_ASCENDING_HEADER
