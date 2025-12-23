@@ -1,3 +1,9 @@
+/**
+ * @file src/main.cpp
+ * @brief Get user input and output the result of AI prediction and real
+ * results.
+ */
+
 #include "frontend.hpp"
 #include "generate.hpp"
 #include "utils.hpp"
