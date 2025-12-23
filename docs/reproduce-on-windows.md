@@ -24,7 +24,17 @@ cd smart-sort
 
 ```ps1
 python -m venv .venv
+```
+
+Before activating the virtual environment, the `PowerShell` should be enabled to run scripts by running the following command, and enter `Y` after executing the command.
+
+```ps1
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+
+Then, activate the virtual environment with this command:
+
+```ps1
 .\.venv\Scripts\Activate.ps1
 ```
 
