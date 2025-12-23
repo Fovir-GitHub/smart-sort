@@ -1,0 +1,111 @@
+name: Build and Release on Windows
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-python:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+          .\.venv\Scripts\Activate.ps1
+          cd MLmodel
+          pip install pyinstaller
+          pip install pyyaml
+          pip install poetry
+          poetry install --no-root
+
+      - name: Build Python API
+        run: |
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+          .\.venv\Scripts\Activate.ps1
+          cd MLmodel
+          pyinstaller --onedir --noconsole `
+              --collect-all xgboost `
+              --add-data "features;features" `
+              --add-data "model;model" `
+              --add-data "config.yaml;." `
+              predict_api.py
+
+      - name: Upload Python artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: predict-api
+          path: MLmodel/dist/predict_api
+
+  build-cpp:
+    needs: build-python
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSVC
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Download Python artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: predict-api
+          path: MLmodel/dist/predict_api
+
+      - name: Build C++ project
+        run: |
+          cmake -S . -B build `
+            -DVCPKG_TARGET_TRIPLET=x64-windows `
+            -Dgtest_disable_pthreads=ON `
+            -Dgtest_force_shared_crt=ON `
+            -DCMAKE_CXX_FLAGS="/EHsc /DGTEST_HAS_PTHREAD=0 /DGTEST_OS_WINDOWS=1"
+          cmake --build build --config Release
+
+      - name: Package application
+        run: |
+          mkdir smart-sort
+          cp build/src/Release/smart-sort.exe smart-sort/
+          cp -r MLmodel/dist/predict_api smart-sort/MLmodel/
+
+      - name: Create ZIP
+        run: |
+          Compress-Archive -Path smart-sort/* -DestinationPath smart-sort-Windows-x64.zip
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-sort-windows
+          path: smart-sort-Windows-x64.zip
+
+  release:
+    needs: build-cpp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: smart-sort-windows
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: smart-sort-Windows-x64.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

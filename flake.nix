@@ -20,7 +20,7 @@
     devShells.${system}.default = pkgs.mkShell {
       # Add packages here.
       buildInputs = with pkgs; [
-        (pkgs.python3.withPackages (python-pkgs:
+        (pkgs.python312.withPackages (python-pkgs:
           with python-pkgs; [
             numpy
             pandas

@@ -1,28 +1,39 @@
 # Smart Sort
 
-This repository stores source code of smart sort.
+This repository stores the source code of **smart-sort**, including the core implementation with C++ and a machine-learning–based sorting model.
 
-## Pre-requirement
+**Sample output:**
 
-**Mandatory**:
+![Sample Output](./img/output-sample-1.png)
 
-| Tool                                             | Version  |
-| ------------------------------------------------ | -------- |
-| [`CMake`](https://cmake.org/)                    | `4.1.2`  |
-| [`GNU Make`](https://www.gnu.org/software/make/) | `4.4.1`  |
-| [`clang-format`](https://llvm.org/builds/)       | `21.1.2` |
-| [`clang-tidy`](https://llvm.org/builds/)         | `21.1.2` |
-| [`g++`](https://gcc.gnu.org/)                    | `14.3.0` |
-| [`git`](https://git-scm.com/)                    | `2.51.2` |
-| [`pre-commit`](https://pre-commit.com/)          | `4.3.0`  |
+## Reproduce
 
-_Optional_ but **recommend**:
+Please follow guides below based on your OS to reproduce this project.
 
-- [`just`](https://just.systems/): Providing a handy way to save and run project-specific commands.
-- [`gdb`](https://sourceware.org/gdb/) or [`cgdb`](https://cgdb.github.io/): Debugger.
+- `Windows`: [`docs/reprduce-on-windows`](https://github.com/Fovir-GitHub/smart-sort/blob/feature/docs/docs/reproduce-on-windows.md)
+- `NixOS`: [`docs/reproduce-on-nixos`](https://github.com/Fovir-GitHub/smart-sort/blob/feature/docs/docs/reproduce-on-nixos.md)
+
+## Technology Stack
+
+### Machine Learning
+
+- `Python 3.12`: Implement the machine learning.
+- `Poetry`: Ensure the reproducibility of machine learning module.
+
+### Main Program
+
+- `C++ 20`
+- `CMake`: Build tool of the project.
+- `Google Test`: Unit testing.
+- `clang-format`: Check and correct the code format.
+- `clang-tidy`: Check the code style.
+
+### Misc
+
+- `Git`: Version control.
+- `pre-commit`: Run scripts before committing.
+- `just`: Run scripts easier.
 
 ## Development
 
-Install all required tools above.
-
-Then follow the [CONTRIBUTING.md](https://github.com/Fovir-GitHub/smart-sort?tab=contributing-ov-file).
+Follow the [CONTRIBUTING.md](https://github.com/Fovir-GitHub/smart-sort?tab=contributing-ov-file).

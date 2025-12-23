@@ -7,6 +7,11 @@
 
 namespace smart_sort {
 
+/**
+ * @class AlgorithmPerformance
+ * @brief Structure used to store performance of an algorithm, including the
+ * algorithm name, comparison times, and the average execution time.
+ */
 struct AlgorithmPerformance {
     std::string name;
     int comparisons;
@@ -25,9 +30,10 @@ DataType getDatasetType();
 int getDatasetSize();
 
 std::vector<AlgorithmPerformance>
-getAllAlgorithmPerformance(std::vector<int> & arr);
+getAllAlgorithmPerformance(std::vector<int> & arr, int direction = 1);
 
 void displayAlgorithmPerformanceInTable(
-    const std::vector<AlgorithmPerformance> & algorithm_performance);
+    const std::vector<AlgorithmPerformance> & algorithm_performance_ascending,
+    const std::vector<AlgorithmPerformance> & algorithm_performance_descending);
 
 } // namespace smart_sort

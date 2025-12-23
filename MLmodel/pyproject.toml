@@ -1,0 +1,19 @@
+[project]
+name = "smartsort"
+version = "1.1.0"
+description = ""
+authors = [{ name = "dazhuqi", email = "1260930860@qq.com" }]
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "xgboost (==3.1.2)",
+  "scikit-learn (==1.7.1)",
+  "numpy (==2.3.5)",
+  "pyyaml (==6.0.3)",
+  "pandas (==2.3.3)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
