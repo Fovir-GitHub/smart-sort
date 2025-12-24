@@ -199,7 +199,9 @@ void displayAlgorithmPerformanceInTable(
     };
 
     // Output the table.
-    PRINT_HORIZONTAL_LINE();
+    std::cout << HORIZONTAL_COLUMN_LINE(NAME_COLUMN_WIDTH)
+              << HORIZONTAL_COLUMN_LINE(SORT_ASCENDING_HEADER_WIDTH)
+              << HORIZONTAL_COLUMN_LINE(SORT_DESCENDING_HEADER_WIDTH) << "+\n";
     std::cout << "|" << std::string(NAME_COLUMN_HEADER.length(), ' ')
               << FILL_BLANK(NAME_COLUMN_WIDTH, NAME_COLUMN_HEADER) << "|"
               << SORT_ASCENDING_HEADER
