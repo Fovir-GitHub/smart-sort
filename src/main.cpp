@@ -9,6 +9,7 @@
 #include "utils.hpp"
 #include <algorithm>
 #include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -59,6 +60,10 @@ int main() {
               << "Actual Best Algorithm (Descending): "
               << actual_best_choice_descending << "\n";
     std::cout.flush();
+
+#ifdef _WIN32
+    std::system("pause");
+#endif
 
     return 0;
 }
