@@ -6,6 +6,10 @@ This repository stores the source code of **smart-sort**, including the core imp
 
 ![Sample Output](./img/output-sample-1.png)
 
+## Installation & Usage (Only Windows Currently)
+
+View [Release Page](https://github.com/Fovir-GitHub/smart-sort/releases/latest) to download the zip file named `smart-sort-Windows-x64.zip` and unzip it. Then, click the executable file named `smart-sort.exe` to run the program.
+
 ## Reproduce
 
 Please follow guides below based on your OS to reproduce this project.
