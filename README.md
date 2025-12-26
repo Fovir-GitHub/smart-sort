@@ -14,8 +14,8 @@ View [Release Page](https://github.com/Fovir-GitHub/smart-sort/releases/latest) 
 
 Please follow guides below based on your OS to reproduce this project.
 
-- `Windows`: [`docs/reprduce-on-windows`](https://github.com/Fovir-GitHub/smart-sort/blob/feature/docs/docs/reproduce-on-windows.md)
-- `NixOS`: [`docs/reproduce-on-nixos`](https://github.com/Fovir-GitHub/smart-sort/blob/feature/docs/docs/reproduce-on-nixos.md)
+- `Windows`: [`docs/reprduce-on-windows`](https://github.com/Fovir-GitHub/smart-sort/blob/main/docs/reproduce-on-windows.md)
+- `NixOS`: [`docs/reproduce-on-nixos`](https://github.com/Fovir-GitHub/smart-sort/blob/main/docs/reproduce-on-nixos.md)
 
 ## Technology Stack
 
